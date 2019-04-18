@@ -1,4 +1,6 @@
 
+![](images/2.png)
+
 - CEPH Monitor ( MON) : CEPH monitor theo dõi sức khỏe của các cluster bằng cách lưu trữ các trạng thái của cluser. MON  map thông tin của các thành phần  bao gồm OSD map, MON map, PG map và CRUSH map. Các cluster theo dõi trạng thái các node sau đó gửi về cho MON. Các MON không thực sự lưu trữ dữ liệu và sẽ gửi về OSD
 - CEPH object storage device ( ODS ) : Khi các client thực hiện write tới cluster, dữ liệu được gửi vào các ODS dưới dạng object. Thực chấy đây là thành phần duy nhất của CEPH Cluster lưu trữu dữ liệu. và cũng lời nơi duy nhất nhận yêu cầu read từ các client. Thông thường, các ODS được gán một ổ cứng vật lý vào cluster. Vì vậy, tổng số các physical disk trong một Cluster sẽ bằng số ODS daemon đang hoạt động 
 - CEPH metdata Server ( MDS ) : MDS theo giói hệ thống tập tin và lưu trữ metadata cho CephFs filesystem. CEPH block device và RADOS không yêu cầu metadata vì vậy sẽ không cần làm việc với MDS. MDS không làm việc trực tiếp với các client, nên sẽ giảm một điểm failure . 
