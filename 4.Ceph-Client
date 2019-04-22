@@ -1,0 +1,53 @@
+
+
+- Trong đa sống trường hợp người dùng sẽ không lưu trữ trực tiếp dữ liệu trong  Ceph Storage Cluster. mà thay đó sẽ sử dụng Ceph Block Devices, the Ceph Filesystem, và Ceph Object Storage.
+
+
+## 1. BLOCK DEVICE
+
+
+### 1.1. Cài đặt CEPH trên Deploy node  
+![](images/11.png) 
+
+
+
+- Trên deploy node sử dụng `ceph-deploy` để cài đặt Ceph trên node `ceph_client`
+```
+ceph-deploy install ceph-client
+
+```
+
+- Copy cấu hình Ceph tới thư mục /etc/ceph trên `ceph_client`
+```
+ceph-deploy admin ceph_client
+
+```
+
+- Khởi tạo Pool 
+```
+ceph osd pool create rbd_pool  8
+
+```
+
+- Init cho phép Rados Block Storage sử dụng Pool 
+```
+rbd pool init rbd_pool
+```
+
+
+### 2. Làm việc với RBD trên Ceph_client
+
+
+- Khởi tạo block device image 
+```
+rbd create foo --size 4096 --image-feature layering [-m {mon-IP}] [-k /path/to/ceph.client.admin.keyring]
+
+
+rbd create foo --size 4096 --image-feature layering --pool  rbd_pool
+
+```
+
+- Map image tới một block device 
+```
+
+```
