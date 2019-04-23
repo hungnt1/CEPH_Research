@@ -5,7 +5,6 @@
 
 ## 1. BLOCK DEVICE
 
-
 ### 1.1. Cài đặt CEPH trên Deploy node  
 ![](images/11.png) 
 
@@ -13,7 +12,7 @@
 
 - Trên deploy node sử dụng `ceph-deploy` để cài đặt Ceph trên node `ceph_client`
 ```
-ceph-deploy install ceph-client
+ceph-deploy install ceph_client
 
 ```
 
@@ -23,9 +22,15 @@ ceph-deploy admin ceph_client
 
 ```
 
+
+
+### 2. Làm việc với RBD trên Ceph_client
+
+
 - Khởi tạo Pool 
 ```
 ceph osd pool create rbd_pool  8
+ceph osd pool application enable rbd_pool rbd
 
 ```
 
@@ -35,19 +40,39 @@ rbd pool init rbd_pool
 ```
 
 
-### 2. Làm việc với RBD trên Ceph_client
 
-
-- Khởi tạo block device image 
+- Cấu hình Kernel Module 
 ```
-rbd create foo --size 4096 --image-feature layering [-m {mon-IP}] [-k /path/to/ceph.client.admin.keyring]
+sudo modprobe rbd
+```
+
+- Khởi tạo rbd image
+```
+rbd create {image-name} --size {megabytes} --pool {pool-name}
 
 
-rbd create foo --size 4096 --image-feature layering --pool  rbd_pool
+rbd create --size 512 --pool rbd_pool vol-test
 
 ```
 
 - Map image tới một block device 
 ```
+rbd map vol-test --pool rbd_pool --name client.admin 
+```
+
+- Filesystem format cho block device 
+```
+mkfs.ext4 -m0 /dev/rbd0
+
+hoặc 
+
+mkfs.ext4 /dev/rbd/rbd_pool/vol-test
+
+```
+
+- Mount block device 
+```
+mkdir /mnt/ceph-block-device
+sudo mount /dev/rbd/rbd_pool/vol-test /mnt/ceph-block-device
 
 ```
