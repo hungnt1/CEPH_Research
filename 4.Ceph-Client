@@ -12,6 +12,8 @@
 
 - Trên deploy node sử dụng `ceph-deploy` để cài đặt Ceph trên node `ceph_client`
 ```
+ceph-deploy --username ceph_deploy purge ceph_client 
+ceph-deploy --username ceph_deploy purgedata ceph_client
 ceph-deploy install ceph_client
 
 ```
