@@ -1,0 +1,49 @@
+
+
+## Install Wordpress on Centos  7
+
+
+
+```
+setenforce 0
+yum install -y wget unzip httpd mariadb-server mariadb
+yum -y install http://rpms.famillecollet.com/enterprise/remi-release-7.rpm
+yum --enablerepo=remi-safe -y install php72 php72-php-mysqlnd.x86_64 php72-php php72-php-pear php72-php-mbstring
+php72 -v 
+which php72 
+
+
+systemctl start httpd mariadb
+systemctl status httpd mariadb
+systemctl enable httpd mariadb
+
+
+sed -i 's/upload_max_filesize = /upload_max_filesize = 100M/g' /etc/opt/remi/php72/php.ini
+
+sed s/upload_max_filesize = 20M
+post_max_size = 21M
+/etc/opt/remi/php72/php.ini
+
+cd /tmp
+wget http://wordpress.org/latest.zip
+unzip -q latest.zip -d /var/www/html/
+chown -R apache:apache /var/www/html/wordpress
+chmod -R 755 /var/www/html/wordpress
+cd /var/www/html/wordpress
+cp wp-config.php wp-config-sample.php 
+s
+mysql -u root <<EOF
+create database wordpress;
+GRANT ALL PRIVILEGES ON wordpress.* TO 'nguyenhung'@'localhost' \
+IDENTIFIED BY '123@123Aa';
+
+EOF
+
+
+vi /etc/httpd/conf/httpd.conf
+
+AllowOverride All
+
+
+
+```
