@@ -12,3 +12,13 @@
 
 
     
+### 4.2 : . Data Durability
+
+- Kịch bản phục hồi dữ liệu trên một placement group có số bản copy 3 : 
+    - Sau khi một OSD bị fail, bản sao của các object trên  placement group sẽ bị giảm xuống 2
+    - Ceph bắt đầu thực hiện khôi phục object trên placment group bằng cách tìm một OSD mới, để thực hiện copy bản thứ 3 của object trên OSD này
+    - Các OSD khác nằm trong placement group sẽ trở về trạng fail cho đến khi OSD mới được copy object hoàn thành
+    - Ceph tiếp tục chọn một OSD khác và tiếp tục sao chép đến khi đạt số repli number mong muốn
+    - OSD thứ 3 sẽ đi về trạng thái fail trước khi thực hiện recovery thành cồng
+
+-
