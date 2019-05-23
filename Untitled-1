@@ -1,0 +1,2 @@
+ceph auth get-or-create client.glance-ops | ssh controller1 sudo tee /etc/ceph/ceph.client.glance-ops.keyring
+ssh controlelr1 sudo chown glance:glance /etc/ceph/ceph.client.glance-ops.keyring
