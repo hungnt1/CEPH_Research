@@ -1,0 +1,36 @@
+sudo -u ceph mkdir /var/lib/ceph/mgr/ceph-ceph_node2
+sudo ceph auth get-or-create mgr.ceph_node2 mon 'allow profile mgr' osd 'allow *' mds 'allow *' -o /var/lib/ceph/mgr/ceph-ceph_node2/keyring
+sudo chown -R ceph:ceph /var/lib/ceph/mgr
+
+systemctl start ceph-mgr@ceph_node2.service
+systemctl enable ceph-mgr@ceph_node2.service
+
+systemctl status ceph-mgr@ceph_node2.service
+
+
+
+stages:
+  - build
+  - deploy
+
+build_wordpress:
+  stage: build
+  script:
+     - docker build -t shop:latest .
+     - docker tag shop:latest 192.168.50.129:5000/shop
+     - docker push 192.168.50.129:5000/shop
+  only:
+    - master
+
+deploy_wordpress:
+  stage: deploy
+  variables:
+    DOCKER_HOST: tcp://192.168.50.121:2375
+  script:
+     - 
+  only:
+    - master
+
+variables:
+  GIT_SSL_NO_VERIFY: "true"
+  GIT_STRATEGY: clone
