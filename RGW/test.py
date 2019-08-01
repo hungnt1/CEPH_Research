@@ -1,4 +1,3 @@
-
 import sys, os, base64, datetime, hashlib, hmac
 import requests # pip install requests
 def admin_api(*args):
@@ -29,13 +28,16 @@ def admin_api(*args):
     authorization_header = f"AWS {access_key}:"+signature.decode('utf-8')+""
 
     print(authorization_header)
-    headers = {  'Date':date, 'Authorization':authorization_header}
-    url = f"http://hunghung.ceph-gateway:7480{CanonicalizedResource}{args[2]}"
+    headers = {'Date':date,'Authorization':authorization_header}
+    url = f"http://ceph-gateway:7480{CanonicalizedResource}{args[2]}"
     print(url)
 
-    r = requests.get(url , headers=headers)
+
+    r = requests.get(url, headers=headers)
     print("----- RESPONSE -------")
     print(r.text)
     print(r.status_code)
 
-admin_api("GET" ,"/hunghung", "?acl")
+admin_api("GET" ,"/hunghung?lifecycle", "")
+                                 
+                                 
