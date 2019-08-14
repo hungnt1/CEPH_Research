@@ -1,0 +1,16 @@
+rabbitmqctl cluster_status
+rabbitmq-plugins enable rabbitmq_management
+firewall-cmd --add-port=15672/tcp
+
+rabbitmqctl stop_app    
+rabbitmqctl join_cluster rabbit@rabbit1
+rabbit1$ rabbitmqctl cluster_status
+rabbitmqctl node_health_check
+rabbitmqctl list_queues
+
+https://stackoverflow.com/questions/53399257/rabbitmq-cluster-mistmatch-hostname-issue
+
+
+curl http://192.168.50.121/api/healthchecks/node
+curl -i -u nguyenhungsync:123@123Aa http://192.168.50.121:15672/api/healthchecks/node                                                                                             
+curl -i -u nguyenhungsync:123@123Aa http://192.168.50.121:15672/api/queues//
