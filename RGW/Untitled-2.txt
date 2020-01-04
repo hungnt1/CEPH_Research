@@ -1,4 +1,0 @@
-systemctl stop mariadb
-systemctl stop httpd
-systemctl stop haproxy
-systemctl stop rabbitmq-server
